@@ -4,6 +4,7 @@ import {
   StyleSheet,
   ScrollView,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import { formatPrice } from '@/utils/formatPrice';
 import ImageSlider from '@/components/ImageSlider';
@@ -11,7 +12,7 @@ import useProductViewModel from '@/viewmodels/product/useProductViewModel';
 import { colors } from '@/constants/colors';
 
 const ProductDetails = () => {
-  const { product, isLoading, error } = useProductViewModel();
+  const { product, isLoading, error, handleSetReminder } = useProductViewModel();
 
   if (isLoading) {
     return (
@@ -39,6 +40,14 @@ const ProductDetails = () => {
           <Text style={styles.price}>{formatPrice(product.price)}</Text>
           <Text style={styles.brand}>{product.brand}</Text>
         </View>
+        
+        <TouchableOpacity 
+          style={styles.reminderButton} 
+          onPress={() => handleSetReminder(product.title)}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.reminderButtonText}>Set a reminder</Text>
+        </TouchableOpacity>
 
         <View style={styles.stockSection}>
           <Text style={styles.stockLabel}>Stock:</Text>
@@ -119,6 +128,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white,
+  },
+  reminderButton: {
+    backgroundColor: colors.primary,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    marginBottom: 16,
+    alignItems: 'center',
+  },
+  reminderButtonText: {
+    color: colors.white,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   loadingContainer: {
     flex: 1,

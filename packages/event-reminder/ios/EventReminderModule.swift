@@ -1,35 +1,82 @@
 import ExpoModulesCore
+import EventKit
 
 public class EventReminderModule: Module {
-  // Each module class must implement the definition function. The definition consists of components
-  // that describes the module's functionality and behavior.
-  // See https://docs.expo.dev/modules/module-api for more details about available components.
+
+  private let eventStore = EKEventStore()
+  
   public func definition() -> ModuleDefinition {
-    // Sets the name of the module that JavaScript code will use to refer to the module. Takes a string as an argument.
-    // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
-    // The module will be accessible from `requireNativeModule('EventReminder')` in JavaScript.
     Name("EventReminder")
 
-    // Defines constant property on the module.
-    Constant("PI") {
-      Double.pi
-    }
+    AsyncFunction("requestCalendarPermission", { (promise: Promise) in
+      if #available(iOS 17.0, *) {
+        self.eventStore.requestFullAccessToEvents { granted, error in
+          if let error = error {
+            promise.resolve(false)
+          } else {
+            promise.resolve(granted)
+          }
+        }
+      } else if #available(iOS 13.0, *) {
+        // iOS 13-16 uses the write access request
+        self.eventStore.requestAccess(to: .event) { granted, error in
+          if let error = error {
+            promise.resolve(false)
+          } else {
+            promise.resolve(granted)
+          }
+        }
+      } else {
+        promise.resolve(false)
+      }
+    })
+    
+    AsyncFunction("addProductReminder") { (productName: String) in
+        // Check calendar access permission
+        let authStatus: EKAuthorizationStatus
+        if #available(iOS 17.0, *) {
+          authStatus = EKEventStore.authorizationStatus(for: .event)
+        } else {
+          authStatus = EKEventStore.authorizationStatus(for: .event)
+        }
+        
+        switch authStatus {
+        case .authorized, .fullAccess:
+          let event = EKEvent(eventStore: self.eventStore)
+          event.title = "Buy \(productName)"
+          event.notes = "Reminder to purchase \(productName)"
+          
+          let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()
+          let noon = Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: tomorrow) ?? tomorrow
+          
+          event.startDate = noon
+          event.endDate = Calendar.current.date(byAdding: .hour, value: 1, to: noon) ?? noon
+          
+          let alarm = EKAlarm(relativeOffset: -3600) // 1 hour in seconds
+          event.addAlarm(alarm)
 
-    // Defines event names that the module can send to JavaScript.
-    Events("onChange")
-
-    // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
-    Function("hello") {
-      return "Hello world! 👋"
-    }
-
-    // Defines a JavaScript function that always returns a Promise and whose native code
-    // is by default dispatched on the different thread than the JavaScript runtime runs on.
-    AsyncFunction("setValueAsync") { (value: String) in
-      // Send an event to JavaScript.
-      self.sendEvent("onChange", [
-        "value": value
-      ])
+          event.calendar = self.eventStore.defaultCalendarForNewEvents
+          
+          do {
+            try self.eventStore.save(event, span: .thisEvent)
+            return [
+              "success": true,
+              "eventId": event.eventIdentifier ?? "",
+              "message": "Reminder set for \(productName)"
+            ]
+          } catch {
+            throw error
+          }
+          
+        case .denied, .restricted:
+          throw NSError(domain: "EventReminder", code: 403, userInfo: [NSLocalizedDescriptionKey: "Calendar access permission denied"])
+          
+        case .notDetermined:
+          throw NSError(domain: "EventReminder", code: 401, userInfo: [NSLocalizedDescriptionKey: "Calendar permission not determined, request permission first"])
+          
+        @unknown default:
+          throw NSError(domain: "EventReminder", code: 500, userInfo: [NSLocalizedDescriptionKey: "Unknown authorization status"])
+        }
     }
   }
 }

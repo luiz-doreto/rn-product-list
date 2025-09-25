@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import EventReminderModule from 'event-reminder';
 import { Product } from '@/models/product.model';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
+import { Alert } from 'react-native';
 
 const useProductViewModel = () => {
   const { id, title } = useLocalSearchParams<{ id: string; title?: string }>();
@@ -33,8 +35,27 @@ const useProductViewModel = () => {
     }
   }, [product, title, navigation]);
 
+    const handleSetReminder = async (productTitle: string) => {
+    try {
+      const permissionGranted = await EventReminderModule.requestCalendarPermission();
+      
+      if (permissionGranted) {
+        const result = await EventReminderModule.addProductReminder(productTitle);
+        Alert.alert('Success', result.message);
+      } else {
+        Alert.alert(
+          'Permission Denied',
+          'Calendar access is required to set reminders. Please enable it in your device settings.'
+        );
+      }
+    } catch (error) {
+      Alert.alert('Error', error instanceof Error ? error.message : 'Failed to set reminder');
+    }
+  };
+
   return {
     product,
+    handleSetReminder,
     isLoading,
     error,
   };

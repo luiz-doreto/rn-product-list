@@ -1,11 +1,10 @@
 import { NativeModule, requireNativeModule } from 'expo';
-
-import { EventReminderModuleEvents } from './EventReminder.types';
+import { EventReminderModuleEvents, ProductReminderResult } from './EventReminder.types';
 
 declare class EventReminderModule extends NativeModule<EventReminderModuleEvents> {
-  PI: number;
-  hello(): string;
-  setValueAsync(value: string): Promise<void>;
+  // Calendar functions
+  requestCalendarPermission(): Promise<boolean>;
+  addProductReminder(productName: string): Promise<ProductReminderResult>;
 }
 
 // This call loads the native module object from the JSI.

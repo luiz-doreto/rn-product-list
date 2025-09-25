@@ -15,7 +15,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.doretoluiz.rnproductlist"
+      "bundleIdentifier": "com.doretoluiz.rnproductlist",
+      "infoPlist": {
+        "NSCalendarsUsageDescription": "We need access to your calendar to add product reminders"
+      }
     },
     "android": {
       "adaptiveIcon": {
