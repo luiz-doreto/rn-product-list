@@ -13,6 +13,7 @@
     "@react-native-picker/picker": "2.11.1",
     "@shopify/flash-list": "^2.0.3",
     "@tanstack/react-query": "^5.90.2",
+    "event-reminder": "file:packages/event-reminder",
     "expo": "~54.0.10",
     "expo-constants": "~18.0.9",
     "expo-image": "^3.0.8",
@@ -28,6 +29,13 @@
   "devDependencies": {
     "@types/react": "~19.1.0",
     "typescript": "~5.9.2"
+  },
+  "expo": {
+    "autolinking": {
+      "searchPaths": [
+        "./packages"
+      ]
+    }
   },
   "private": true
 }

@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "event-reminder": ["../src/index"],
+      "event-reminder/*": ["../src/*"]
+    }
+  }
+}
