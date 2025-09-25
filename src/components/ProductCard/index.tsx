@@ -13,7 +13,9 @@ const ProductCard = ({ product }: { product: Product }) => {
         style={styles.thumbnail}
       />
       <View style={styles.infoContainer}>
-        <Text style={styles.title}>{product.title}</Text>
+        <Text style={styles.title} numberOfLines={2}>
+          {product.title}
+        </Text>
         <Text>{formatPrice(product.price)}</Text>
       </View>
     </TouchableOpacity>
@@ -22,17 +24,16 @@ const ProductCard = ({ product }: { product: Product }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 90,
+    height: 160,
     backgroundColor: '#e3e3e3',
-    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
     borderRadius: 8,
-    marginBottom: 12,
+    margin: 6,
   },
   infoContainer: {
-    flex: 1,
-    marginLeft: 12,
-    justifyContent: 'space-around',
+    padding: 6,
+    width: '100%',
   },
   title: {
     fontSize: 16,

@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import FiltersButton from '@/components/FiltersButton';
+import ApplyButton from '@/components/ApplyButton';
 
 const queryClient = new QueryClient();
 
@@ -14,7 +15,7 @@ const Layout = () => {
         />
         <Stack.Screen
           name='filters-modal'
-          options={{ title: 'Filters', presentation: 'modal' }}
+          options={{ title: 'Filters', presentation: 'modal', headerRight: () => <ApplyButton /> }}
         />
       </Stack>
     </QueryClientProvider>

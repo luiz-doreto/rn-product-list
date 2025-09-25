@@ -26,6 +26,8 @@ export default function App() {
         data={products}
         keyExtractor={keyExtractor}
         renderItem={renderItem}
+        masonry
+        numColumns={2}
         onEndReached={hasMore ? fetchMore : undefined}
         onEndReachedThreshold={0.5}
         ListFooterComponent={isFetchingMore ? <ActivityIndicator /> : null}
@@ -40,7 +42,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   listContainer: {
-    marginTop: 12,
-    paddingHorizontal: 12,
+    marginTop: 6,
+    paddingHorizontal: 6,
   },
 });

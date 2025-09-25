@@ -1,37 +1,51 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
-import { sortByOptions } from '@/store/useFiltersStore';
+import { useEffect } from 'react';
+import useFiltersStore from '@/store/useFiltersStore';
+import { Category } from '@/models/category.model';
 
 const useFilterModalViewModel = () => {
-  const [selectedCategory, setSelectedCategory] = useState('');
-  const [selectedSort, setSelectedSort] = useState('');
+  const {
+    tempCategory,
+    setTempCategory,
+    tempSortBy,
+    setTempSortBy,
+    initializeTempValues,
+    applyFilters,
+  } = useFiltersStore();
 
   const getCategories = async () => {
-    const response = await fetch(
-      'https://dummyjson.com/products/category-list'
-    );
+    const response = await fetch('https://dummyjson.com/products/categories');
     const categories = await response.json();
-    return categories;
+    return [{ slug: 'All', name: 'All', url: '' }, ...categories];
   };
 
   const {
     data: categories,
     isLoading,
     error,
-  } = useQuery<string[]>({
+  } = useQuery<Category[]>({
     queryKey: ['categories'],
     queryFn: () => getCategories(),
   });
 
+  // sync temp and current values
+  useEffect(() => {
+    initializeTempValues();
+  }, [initializeTempValues]);
+
+  const handleApplyFilters = () => {
+    applyFilters();
+  };
+
   return {
     categories,
-    sortByOptions,
     isLoading,
     error,
-    selectedCategory,
-    setSelectedCategory,
-    selectedSort,
-    setSelectedSort,
+    selectedCategory: tempCategory,
+    setSelectedCategory: setTempCategory,
+    selectedSort: tempSortBy,
+    setSelectedSort: setTempSortBy,
+    handleApplyFilters,
   };
 };
 

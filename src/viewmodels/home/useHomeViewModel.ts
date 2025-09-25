@@ -1,8 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { ProductApi } from './types';
 import useFiltersStore from '@/store/useFiltersStore';
-
-const LIMIT_PER_PAGE = 20;
+import { CATEGORY_ALL, LIMIT_PER_PAGE, SORT_BY_NONE } from '@/constants';
 
 const useHomeViewModel = () => {
   const { category, sortBy } = useFiltersStore();
@@ -15,12 +14,12 @@ const useHomeViewModel = () => {
   ) => {
     let baseUrl = 'https://dummyjson.com/products';
 
-    if (category) {
+    if (category && category !== CATEGORY_ALL) {
       baseUrl += `/category/${category}`;
     }
 
     const params = new URLSearchParams();
-    if (sortBy !== 'none') {
+    if (sortBy !== SORT_BY_NONE) {
       params.append('sortBy', sortBy);
     }
     params.append('limit', limit.toString());
