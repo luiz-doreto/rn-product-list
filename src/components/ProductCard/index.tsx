@@ -1,12 +1,23 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Image } from 'expo-image';
+import { router } from 'expo-router';
 
 import { Product } from '@/models/product.model';
 import { formatPrice } from '@/utils/formatPrice';
 
 const ProductCard = ({ product }: { product: Product }) => {
+  const handlePress = () => {
+    router.push({
+      pathname: `/product/[id]`,
+      params: {
+        id: product.id.toString(),
+        title: product.title,
+      },
+    });
+  };
+
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={handlePress}>
       <Image
         key={product.id}
         source={{ uri: product.thumbnail }}
