@@ -28,7 +28,7 @@ const ProductCard = ({ product }: { product: Product }) => {
         <Text style={styles.title} numberOfLines={2}>
           {product.title}
         </Text>
-        <Text>{formatPrice(product.price)}</Text>
+        <Text style={styles.price}>{formatPrice(product.price)}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -56,6 +56,10 @@ const styles = StyleSheet.create({
   thumbnail: {
     width: 90,
     height: 90,
+  },
+  price: {
+    textAlign: 'right',
+    color: colors.mediumGray,
   },
 });
 

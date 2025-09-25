@@ -31,7 +31,7 @@ const ProductDetails = () => {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <ImageSlider images={product.images} />
 
       <View style={styles.contentContainer}>
