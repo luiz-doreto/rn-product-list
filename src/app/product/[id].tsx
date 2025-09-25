@@ -8,6 +8,7 @@ import {
 import { formatPrice } from '@/utils/formatPrice';
 import ImageSlider from '@/components/ImageSlider';
 import useProductViewModel from '@/viewmodels/product/useProductViewModel';
+import { colors } from '@/constants/colors';
 
 const ProductDetails = () => {
   const { product, isLoading, error } = useProductViewModel();
@@ -15,7 +16,7 @@ const ProductDetails = () => {
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size='large' color='#007AFF' />
+        <ActivityIndicator size='large' color={colors.primary} />
         <Text style={styles.loadingText}>Loading product...</Text>
       </View>
     );
@@ -44,7 +45,7 @@ const ProductDetails = () => {
           <Text
             style={[
               styles.stockValue,
-              { color: product.stock > 0 ? '#4CAF50' : '#F44336' },
+              { color: product.stock > 0 ? colors.success : colors.error },
             ]}
           >
             {product.stock > 0 ? `${product.stock} available` : 'Out of stock'}
@@ -59,8 +60,8 @@ const ProductDetails = () => {
               {
                 color:
                   product.availabilityStatus === 'In Stock'
-                    ? '#4CAF50'
-                    : '#FF9800',
+                    ? colors.success
+                    : colors.warning,
               },
             ]}
           >
@@ -117,7 +118,7 @@ const ProductDetails = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.white,
   },
   loadingContainer: {
     flex: 1,
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 10,
     fontSize: 16,
-    color: '#666',
+    color: colors.mediumGray,
   },
   errorContainer: {
     flex: 1,
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 16,
-    color: '#F44336',
+    color: colors.error,
   },
   contentContainer: {
     padding: 16,
@@ -150,12 +151,12 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#007AFF',
+    color: colors.primary,
   },
   brand: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#333',
+    color: colors.darkGray,
   },
   stockSection: {
     flexDirection: 'row',
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     marginRight: 8,
-    color: '#333',
+    color: colors.darkGray,
   },
   stockValue: {
     fontSize: 16,
@@ -181,7 +182,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     marginRight: 8,
-    color: '#333',
+    color: colors.darkGray,
   },
   availabilityValue: {
     fontSize: 16,
@@ -194,12 +195,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 8,
-    color: '#333',
+    color: colors.darkGray,
   },
   description: {
     fontSize: 16,
     lineHeight: 24,
-    color: '#666',
+    color: colors.mediumGray,
   },
   additionalInfo: {
     marginBottom: 20,
@@ -209,17 +210,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 8,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: colors.lightBorder,
   },
   infoLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: colors.darkGray,
     flex: 1,
   },
   infoValue: {
     fontSize: 16,
-    color: '#666',
+    color: colors.mediumGray,
     flex: 2,
     textAlign: 'right',
   },

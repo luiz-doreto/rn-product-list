@@ -1,6 +1,7 @@
 import { Text, StyleSheet, Pressable } from 'react-native';
 import { useRouter } from 'expo-router';
 import useFiltersStore from '@/store/useFiltersStore';
+import { colors } from '@/constants/colors';
 
 const ApplyButton = () => {
   const router = useRouter();
@@ -20,8 +21,8 @@ const ApplyButton = () => {
 
 const styles = StyleSheet.create({
   buttonText: {
+    color: colors.primary,
     fontSize: 16,
-    color: '#007AFF',
     padding: 8,
   },
 });

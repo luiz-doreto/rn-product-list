@@ -3,6 +3,7 @@ import { View, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { Image } from 'expo-image';
 import { ImageSliderProps } from './types';
 import useImageSliderViewModel from './view.model';
+import { colors } from '@/constants/colors';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -44,7 +45,7 @@ const ImageSlider = ({ images }: ImageSliderProps) => {
                 styles.dot,
                 {
                   backgroundColor:
-                    index === currentIndex ? '#007AFF' : '#C7C7CC',
+                    index === currentIndex ? colors.primary : colors.inactive,
                 },
               ]}
             />
@@ -58,7 +59,7 @@ const ImageSlider = ({ images }: ImageSliderProps) => {
 const styles = StyleSheet.create({
   container: {
     height: 300,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: colors.lightGray,
   },
   scrollView: {
     flex: 1,

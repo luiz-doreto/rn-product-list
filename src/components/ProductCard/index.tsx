@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 
 import { Product } from '@/models/product.model';
 import { formatPrice } from '@/utils/formatPrice';
+import { colors } from '@/constants/colors';
 
 const ProductCard = ({ product }: { product: Product }) => {
   const handlePress = () => {
@@ -36,7 +37,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 const styles = StyleSheet.create({
   container: {
     height: 160,
-    backgroundColor: '#e3e3e3',
+    backgroundColor: colors.lightGray,
     justifyContent: 'space-between',
     alignItems: 'center',
     borderRadius: 8,
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 4,
+    color: colors.darkGray,
   },
   thumbnail: {
     width: 90,

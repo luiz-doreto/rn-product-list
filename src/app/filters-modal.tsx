@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import useFilterModalViewModel from '@/viewmodels/modal/useFilterModalViewModel';
 import { Picker } from '@react-native-picker/picker';
 import { SortByOptions } from '@/constants';
+import { colors } from '@/constants/colors';
 
 const FiltersModal = () => {
   const {
@@ -23,7 +24,9 @@ const FiltersModal = () => {
             key={category.slug}
             label={category.name}
             value={category.slug}
-            color={selectedCategory === category.slug ? '#007AFF' : 'black'}
+            color={
+              selectedCategory === category.slug ? colors.primary : colors.black
+            }
           />
         ))}
       </Picker>
@@ -37,7 +40,9 @@ const FiltersModal = () => {
             key={option.value}
             label={option.label}
             value={option.value}
-            color={selectedSort === option.value ? '#007AFF' : 'black'}
+            color={
+              selectedSort === option.value ? colors.primary : colors.black
+            }
           />
         ))}
       </Picker>
