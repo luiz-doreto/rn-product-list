@@ -8,7 +8,6 @@ import useNotificationObserver from '@/services/notificationObserver';
 const queryClient = new QueryClient();
 initNotificationService();
 
-
 const Layout = () => {
   useNotificationObserver();
   return (

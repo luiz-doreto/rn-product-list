@@ -11,7 +11,7 @@ public class EventReminderModule: Module {
     AsyncFunction("requestCalendarPermission", { (promise: Promise) in
       if #available(iOS 17.0, *) {
         self.eventStore.requestFullAccessToEvents { granted, error in
-          if let error = error {
+          if error != nil {
             promise.resolve(false)
           } else {
             promise.resolve(granted)
@@ -20,7 +20,7 @@ public class EventReminderModule: Module {
       } else if #available(iOS 13.0, *) {
         // iOS 13-16 uses the write access request
         self.eventStore.requestAccess(to: .event) { granted, error in
-          if let error = error {
+          if error != nil {
             promise.resolve(false)
           } else {
             promise.resolve(granted)
