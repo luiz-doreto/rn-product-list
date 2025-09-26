@@ -62,7 +62,7 @@ public class EventReminderModule: Module {
             return [
               "success": true,
               "eventId": event.eventIdentifier ?? "",
-              "message": "Reminder set for \(productName)"
+              "message": "New event added to your calendar. Reminder set for \(productName)"
             ]
           } catch {
             throw error

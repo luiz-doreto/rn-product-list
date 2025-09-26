@@ -12,7 +12,7 @@ import useProductViewModel from '@/viewmodels/product/useProductViewModel';
 import { colors } from '@/constants/colors';
 
 const ProductDetails = () => {
-  const { product, isLoading, error, handleSetReminder } = useProductViewModel();
+  const { product, isLoading, error, handleSetReminder, handleScheduleNotification } = useProductViewModel();
 
   if (isLoading) {
     return (
@@ -47,6 +47,14 @@ const ProductDetails = () => {
           activeOpacity={0.7}
         >
           <Text style={styles.reminderButtonText}>Set a reminder</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.reminderButton} 
+          onPress={() => handleScheduleNotification(product.title, product.id)}
+          activeOpacity={0.7}
+        >
+          <Text style={styles.reminderButtonText}>Schedule a notification</Text>
         </TouchableOpacity>
 
         <View style={styles.stockSection}>

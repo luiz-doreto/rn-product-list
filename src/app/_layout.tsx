@@ -2,10 +2,15 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import FiltersButton from '@/components/FiltersButton';
 import ApplyButton from '@/components/ApplyButton';
+import { initNotificationService } from '@/services/notifications';
+import useNotificationObserver from '@/services/notificationObserver';
 
 const queryClient = new QueryClient();
+initNotificationService();
+
 
 const Layout = () => {
+  useNotificationObserver();
   return (
     <QueryClientProvider client={queryClient}>
       <Stack

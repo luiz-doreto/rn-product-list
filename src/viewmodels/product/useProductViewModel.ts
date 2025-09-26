@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
+import * as Notifications from 'expo-notifications';
 import { useQuery } from '@tanstack/react-query';
 import EventReminderModule from 'event-reminder';
 import { Product } from '@/models/product.model';
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import { Alert } from 'react-native';
+import { scheduleNotification } from '@/services/notifications';
 
 const useProductViewModel = () => {
   const { id, title } = useLocalSearchParams<{ id: string; title?: string }>();
@@ -53,9 +55,25 @@ const useProductViewModel = () => {
     }
   };
 
+  const handleScheduleNotification = async (productTitle: string, productId: number) => {
+    try {
+      await Notifications.requestPermissionsAsync();
+      await scheduleNotification({
+        title: 'Product Reminder',
+        body: `Reminder for: ${productTitle}`,
+        data: { productId: productId.toString() },
+        seconds: 15,
+      });
+      Alert.alert('Success', 'Notification with deep linking scheduled successfully (15 seconds)');
+    } catch (error) {
+      Alert.alert('Error', error instanceof Error ? error.message : 'Failed to schedule notification');
+    }
+  };
+
   return {
     product,
     handleSetReminder,
+    handleScheduleNotification,
     isLoading,
     error,
   };
