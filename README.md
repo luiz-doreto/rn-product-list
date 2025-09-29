@@ -2,6 +2,12 @@
 
 A React Native application for displaying and filtering products with calendar event integration and local notifications.
 
+<p align="center">
+  <img width="30%" alt="Image" src="https://github.com/user-attachments/assets/89ab9ca4-2443-48ec-b04f-b8e5e6f1295b" />
+  <img width="30%" alt="Image" src="https://github.com/user-attachments/assets/09bdb63b-dd2e-4ada-bbc8-afe26dd434db" />
+  <img width="30%" alt="Image" src="https://github.com/user-attachments/assets/4e24e8a7-5ce4-4de4-874a-fc27956ccdc2" />
+</p>
+
 ## Features
 
 - Product listing and filtering
